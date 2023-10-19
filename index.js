@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const brandsData = require('./brandData.json')
 require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
@@ -8,6 +9,10 @@ const port = process.env.PORT || 5000;
 // midleware........
 app.use(cors());
 app.use(express.json());
+
+app.get('/brands', (req,res)=>{
+    res.send(brandsData)
+})
 
 
 
