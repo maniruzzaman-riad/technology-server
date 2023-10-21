@@ -33,6 +33,7 @@ async function run() {
         await client.connect();
 
         const productCollection = client.db('productDB').collection('products')
+        const cartCollection = client.db('productDB').collection('cart')
 
         app.get('/products', async (req, res) => {
             const cursor = productCollection.find()
@@ -81,6 +82,20 @@ async function run() {
             const result = await productCollection.updateOne(filter, updateProductNew, options)
         })
 
+        // cart API ................
+
+        app.get('/cart', async (req, res) => {
+            const cursor = cartCollection.find();
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+
+        app.post('/cart', async (req, res) => {
+            const cart = req.body;
+            const result = await cartCollection.insertOne(cart)
+            res.send(result)
+        })
+
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
@@ -96,7 +111,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Hello Im runing')
+    res.send('Hello Im runing too')
 })
 
 app.listen(port, () => {
