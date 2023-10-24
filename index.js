@@ -80,6 +80,7 @@ async function run() {
                 }
             }
             const result = await productCollection.updateOne(filter, updateProductNew, options)
+            res.send(result)
         })
 
         // cart API ................
@@ -93,6 +94,13 @@ async function run() {
         app.post('/cart', async (req, res) => {
             const cart = req.body;
             const result = await cartCollection.insertOne(cart)
+            res.send(result)
+        })
+
+        app.delete('/cart/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: id}
+            const result = await cartCollection.deleteOne(query);
             res.send(result)
         })
 
